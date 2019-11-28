@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class PeoplesServlet extends HttpServlet {
   private final TemplateEngine marker;
@@ -32,12 +31,10 @@ public class PeoplesServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    Map<String, String[]> params = req.getParameterMap();
-    int id = params.containsKey("id") ? Integer.parseInt(req.getParameter("id")) : -1;
-    boolean liked = params.containsKey("liked") && Boolean.parseBoolean(req.getParameter("liked"));
+    int id = Integer.parseInt(req.getParameter("id"));
+    boolean liked = Boolean.parseBoolean(req.getParameter("liked"));
 
-    System.out.printf("id: %d %s", id, liked ? "liked" : "disliked");
-    resp.sendRedirect("/users");
-
+    resp.setStatus(200);
+    resp.getWriter().println("done");
   }
 }
