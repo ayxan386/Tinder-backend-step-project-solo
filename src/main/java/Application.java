@@ -1,4 +1,3 @@
-
 import filters.LoggedFilter;
 import filters.PeoplesFilter;
 import org.eclipse.jetty.server.Server;

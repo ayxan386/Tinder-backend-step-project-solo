@@ -3,15 +3,19 @@ package db;
 import user.User;
 import user.UserBuilder;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class SQLUserQueries {
   private final String LOGIN = "SELECT id,users.email,users.password,photo_link,liked,name FROM users WHERE email=? and password=?";
   private final String SELECT = "SELECT id,users.email,users.password,photo_link,liked, name FROM users WHERE (id >= ? and id <= ?)";
+  private final String SELECT_ID = "SELECT id,users.email,users.password,photo_link,liked, name FROM users WHERE (id = ?)";
+  private final String UPDATE_USER = "UPDATE users SET email = ?,password=?,photo_link=?,liked=?,name=? WHERE (id = ?)";
 
   public User login(String user, String pass) {
     try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(LOGIN)) {
@@ -25,6 +29,7 @@ public class SQLUserQueries {
               .withEmail(res.getString("email"))
               .withName(res.getString("name"))
               .withLink(res.getString("photo_link"))
+              .withLikedUsers(res.getArray("liked"))
               .withPassword(res.getString("password"))
               .init();
         }
@@ -48,6 +53,7 @@ public class SQLUserQueries {
               .withName(res.getString("name"))
               .withEmail(res.getString("email"))
               .withLink(res.getString("photo_link"))
+              .withLikedUsers(res.getArray("liked"))
               .withPassword(res.getString("password"))
               .init());
         }
@@ -57,5 +63,43 @@ public class SQLUserQueries {
       e.printStackTrace();
     }
     return Arrays.asList(User.defaultUser());
+  }
+
+  public Optional<User> getById(int id) {
+    try (PreparedStatement statement = DataBaseConnection.getConnection().prepareStatement(SELECT_ID)) {
+      statement.setInt(1, id);
+      ResultSet res = statement.executeQuery();
+      while (res.next()) {
+        if (res.getInt("id") != -1) {
+          return Optional.of(new UserBuilder()
+              .withId(res.getInt("id"))
+              .withEmail(res.getString("email"))
+              .withName(res.getString("name"))
+              .withLink(res.getString("photo_link"))
+              .withLikedUsers(res.getArray("liked"))
+              .withPassword(res.getString("password"))
+              .init());
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return Optional.empty();
+  }
+
+  public int update(User u) {
+    Connection conn = DataBaseConnection.getConnection();
+    try (PreparedStatement statement = conn.prepareStatement(UPDATE_USER)) {
+      statement.setString(1, u.getEmail());
+      statement.setString(2, u.getPass());
+      statement.setString(3, u.getLink());
+      statement.setArray(4, conn.createArrayOf("INTEGER", u.getLiked().toArray()));
+      statement.setString(5, u.getName());
+      statement.setInt(6, u.getId());
+      return statement.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return 0;
   }
 }

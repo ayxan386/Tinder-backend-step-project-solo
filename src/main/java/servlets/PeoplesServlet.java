@@ -1,5 +1,6 @@
 package servlets;
 
+import db.SQLUserQueries;
 import services.implementations.SQLRandomUser;
 import templateEngine.TemplateEngine;
 import user.User;
@@ -10,12 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class PeoplesServlet extends HttpServlet {
   private final TemplateEngine marker;
+  private final SQLUserQueries sql;
+  private int update;
 
   public PeoplesServlet(TemplateEngine freemarker) {
     marker = freemarker;
+    this.sql = new SQLUserQueries();
   }
 
   @Override
@@ -33,8 +38,19 @@ public class PeoplesServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     int id = Integer.parseInt(req.getParameter("id"));
     boolean liked = Boolean.parseBoolean(req.getParameter("liked"));
-
-    resp.setStatus(200);
-    resp.getWriter().println("done");
+    if (liked) {
+      int logged_user = Integer.parseInt(req.getCookies()[0].getValue());
+      Optional<User> byId = sql.getById(logged_user);
+      if (byId.isPresent()) {
+        User u = byId.get();
+        if (!u.contains(id)) {
+          u.addToList(id);
+          int update = sql.update(u);
+          resp.getWriter().println(update > 0 ? "done" : "error");
+          return;
+        }
+      }
+    }
+    resp.sendRedirect("/users");
   }
 }
