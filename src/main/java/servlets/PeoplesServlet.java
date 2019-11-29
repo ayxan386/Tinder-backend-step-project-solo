@@ -1,7 +1,7 @@
 package servlets;
 
-import db.SQLUserQueries;
 import services.implementations.SQLRandomUser;
+import services.interfaces.DAO;
 import templateEngine.TemplateEngine;
 import user.User;
 
@@ -15,12 +15,11 @@ import java.util.Optional;
 
 public class PeoplesServlet extends HttpServlet {
   private final TemplateEngine marker;
-  private final SQLUserQueries sql;
-  private int update;
+  private final DAO<User> dao;
 
-  public PeoplesServlet(TemplateEngine freemarker) {
+  public PeoplesServlet(TemplateEngine freemarker, DAO<User> dao) {
     marker = freemarker;
-    this.sql = new SQLUserQueries();
+    this.dao = dao;
   }
 
   @Override
@@ -40,12 +39,12 @@ public class PeoplesServlet extends HttpServlet {
     boolean liked = Boolean.parseBoolean(req.getParameter("liked"));
     if (liked) {
       int logged_user = Integer.parseInt(req.getCookies()[0].getValue());
-      Optional<User> byId = sql.getById(logged_user);
+      Optional<User> byId = dao.get(logged_user);
       if (byId.isPresent()) {
         User u = byId.get();
         if (!u.contains(id)) {
           u.addToList(id);
-          int update = sql.update(u);
+          int update = dao.update(u);
           resp.getWriter().println(update > 0 ? "done" : "error");
           return;
         }
