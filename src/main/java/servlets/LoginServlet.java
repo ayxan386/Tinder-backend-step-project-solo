@@ -1,8 +1,8 @@
 package servlets;
 
+import entities.User;
 import services.interfaces.Auth;
 import templateEngine.TemplateEngine;
-import user.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -10,23 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 
-public class UsersServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
   private final Auth auth;
   private final TemplateEngine marker;
 
-  public UsersServlet(Auth sqlAuth, TemplateEngine marker) {
+  public LoginServlet(Auth sqlAuth, TemplateEngine marker) {
     auth = sqlAuth;
     this.marker = marker;
   }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    Files.copy(Paths.get("./static/templates/login.html"), resp.getOutputStream());
+    marker.render("/login.html", resp);
   }
 
   @Override
@@ -39,8 +37,8 @@ public class UsersServlet extends HttpServlet {
       final User userLogged = oUser.get();
 
       resp.addCookie(new Cookie("%t.id%", String.valueOf(userLogged.getId())));
-
       resp.sendRedirect("/users");
+
     } else {
       resp.sendRedirect("/login");
     }

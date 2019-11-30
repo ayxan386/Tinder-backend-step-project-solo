@@ -1,8 +1,8 @@
 package services.implementations;
 
+import entities.User;
 import org.junit.Before;
 import org.junit.Test;
-import user.User;
 
 import java.util.Optional;
 

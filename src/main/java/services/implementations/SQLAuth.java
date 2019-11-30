@@ -1,8 +1,8 @@
 package services.implementations;
 
 import db.SQLUserQueries;
+import entities.User;
 import services.interfaces.Auth;
-import user.User;
 
 import java.util.Optional;
 

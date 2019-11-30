@@ -1,6 +1,6 @@
 package services.interfaces;
 
-import user.User;
+import entities.User;
 
 import java.util.Optional;
 
