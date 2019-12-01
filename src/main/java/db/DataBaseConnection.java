@@ -6,13 +6,13 @@ import java.sql.SQLException;
 
 public class DataBaseConnection {
   //remote
-//  private final static String url = "jdbc:mysql://remotemysql.com:3306/rYr8qqUGrK";
-//  private final static String username = "rYr8qqUGrK";
-//  private final static String password = "qmm2LmFWZK";
+  private final static String url = "jdbc:mysql://remotemysql.com:3306/rYr8qqUGrK";
+  private final static String username = "rYr8qqUGrK";
+  private final static String password = "qmm2LmFWZK";
   // local
-  private final static String url = "jdbc:postgresql://localhost:5432/tinder";
-  private final static String username = "postgres";
-  private final static String password = "ayxan123";
+//  private final static String url = "jdbc:postgresql://localhost:5432/tinder";
+//  private final static String username = "postgres";
+//  private final static String password = "ayxan123";
 
 
   private static Connection conn;
