@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UsersServlets extends HttpServlet {
   private final TemplateEngine marker;
@@ -28,13 +30,26 @@ public class UsersServlets extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    User u = new RandomUsers(dao).getRandom();
-    marker.render("/like-page.html", new HashMap<String, Object>() {{
-      put("notfound", "not found");
-      put("userName", u.getName());
-      put("photo_link", u.getLink());
-      put("user_id", u.getId());
-    }}, resp);
+    int id = Integer.parseInt(req.getCookies()[0].getValue());
+    RandomUsers randomUsers = new RandomUsers(dao);
+    List<Integer> alreadyLiked = dao_liked.getContaining(id)
+        .orElse(Collections.emptyList())
+        .stream()
+        .map(user -> user.getWhom())
+        .collect(Collectors.toList());
+    User u = randomUsers.getRandom(id, alreadyLiked);
+    //Liked all users
+    if (u.isDefault()) {
+      resp.sendRedirect("/liked");
+      return;
+    }
+    HashMap<String, Object> data = new HashMap<>();
+    data.put("notfound", "not found");
+    data.put("userName", u.getName());
+    data.put("photo_link", u.getLink());
+    data.put("user_id", u.getId());
+
+    marker.render("/like-page.html", data, resp);
   }
 
   @Override
@@ -46,8 +61,10 @@ public class UsersServlets extends HttpServlet {
       Optional<List<LikedUser>> list_of_liked = dao_liked.getContaining(logged_user_id);
 
       list_of_liked.ifPresent(list -> {
-            System.out.println(list);
-            if (!list.contains(id)) {
+        List<Integer> intList = list.stream()
+            .map(LikedUser::getWhom)
+            .collect(Collectors.toList());
+        if (!intList.contains(id)) {
               dao_liked.add(new LikedUser(-1, logged_user_id, id));
             }
           }

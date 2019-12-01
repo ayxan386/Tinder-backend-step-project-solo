@@ -44,4 +44,12 @@ public class User {
     return name;
   }
 
+  public boolean isDefault() {
+    return getId() == -1;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("User{email='%s', pass='%s', link='%s', name='%s', id=%d}", email, pass, link, name, id);
+  }
 }

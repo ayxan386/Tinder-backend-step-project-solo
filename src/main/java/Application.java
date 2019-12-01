@@ -28,7 +28,7 @@ public class Application {
 
       handler.addServlet(new ServletHolder(new LoginServlet(sqlAuth, freemarker)), "/login/*");
       handler.addServlet(new ServletHolder(new LogoutServlet()), "/logout/*");
-      handler.addServlet(new ServletHolder(new LikedServlet(freemarker)), "/liked/*");
+      handler.addServlet(new ServletHolder(new LikedServlet(freemarker, sqlDao, sqlLikedDao)), "/liked/*");
       handler.addServlet(new ServletHolder(new UsersServlets(freemarker, sqlDao, sqlLikedDao)), "/users/*");
       handler.addServlet(new ServletHolder(new MessagesServlet(freemarker)), "/messages/*");
       handler.addServlet(new ServletHolder(new StaticLoader()), "/static/*");
