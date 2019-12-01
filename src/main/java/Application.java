@@ -21,7 +21,7 @@ public class Application {
   }
 
   private void startServer() {
-    Server server = new Server(8880);
+    Server server = new Server(5000);
     ServletContextHandler handler = new ServletContextHandler();
     try {
       SQLAuth sqlAuth = new SQLAuth();
