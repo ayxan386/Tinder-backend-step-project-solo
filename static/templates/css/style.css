@@ -441,3 +441,7 @@ input:focus {
     overflow-y: scroll;
     max-height: 560px;
 }
+
+.custom-area {
+    height: 360px;
+}

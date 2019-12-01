@@ -5,6 +5,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import services.implementations.SQLAuth;
 import services.implementations.SQLLikedDao;
+import services.implementations.SQLMessageDao;
 import services.implementations.SQLUserDao;
 import servlets.*;
 import templateEngine.TemplateEngine;
@@ -22,15 +23,16 @@ public class Application {
     ServletContextHandler handler = new ServletContextHandler();
     try {
       SQLAuth sqlAuth = new SQLAuth();
-      SQLUserDao sqlDao = new SQLUserDao();
+      SQLUserDao sqlUserDao = new SQLUserDao();
       SQLLikedDao sqlLikedDao = new SQLLikedDao();
+      SQLMessageDao sqlMessageDao = new SQLMessageDao();
       TemplateEngine freemarker = new TemplateEngine("./static/templates");
 
       handler.addServlet(new ServletHolder(new LoginServlet(sqlAuth, freemarker)), "/login/*");
       handler.addServlet(new ServletHolder(new LogoutServlet()), "/logout/*");
-      handler.addServlet(new ServletHolder(new LikedServlet(freemarker, sqlDao, sqlLikedDao)), "/liked/*");
-      handler.addServlet(new ServletHolder(new UsersServlets(freemarker, sqlDao, sqlLikedDao)), "/users/*");
-      handler.addServlet(new ServletHolder(new MessagesServlet(freemarker)), "/messages/*");
+      handler.addServlet(new ServletHolder(new LikedServlet(freemarker, sqlUserDao, sqlLikedDao)), "/liked/*");
+      handler.addServlet(new ServletHolder(new UsersServlets(freemarker, sqlUserDao, sqlLikedDao)), "/users/*");
+      handler.addServlet(new ServletHolder(new MessagesServlet(freemarker, sqlMessageDao, sqlUserDao)), "/messages/*");
       handler.addServlet(new ServletHolder(new StaticLoader()), "/static/*");
 
 
