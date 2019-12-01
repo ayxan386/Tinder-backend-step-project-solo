@@ -1,1 +1,1 @@
-web: java -jar target/tinder-project-1.0-SNAPSHOT.jar
+web: java -jar out/artifacts/tinderproject_jar/tinderproject.jar
