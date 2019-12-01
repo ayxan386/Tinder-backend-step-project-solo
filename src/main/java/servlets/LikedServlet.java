@@ -36,12 +36,12 @@ public class LikedServlet extends HttpServlet {
     likedUserO.ifPresent(likedUsers -> {
       List<User> users = likedUsers.stream()
           .map(userLiked -> dao.get(userLiked.getWhom())
-              .orElse(null))
+              .orElse(User.defaultUser()))
           .collect(Collectors.toList());
       data.put("users", users);
     });
-//    System.out.println(data.get("users"));
     data.put("emptyList", Arrays.asList("You have not liked anybody yet:/"));
+    data.put("def", -1);
     marker.render("/people-list.ftl", data, resp);
   }
 }

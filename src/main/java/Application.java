@@ -1,4 +1,6 @@
 import filters.LoggedFilter;
+import filters.MessagesGetFilter;
+import filters.MessagesPostFilter;
 import filters.PeoplesFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -39,7 +41,10 @@ public class Application {
       handler.addFilter(LoggedFilter.class, "/liked/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(LoggedFilter.class, "/users/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(LoggedFilter.class, "/messages", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+      handler.addFilter(MessagesGetFilter.class, "/messages", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+      handler.addFilter(MessagesPostFilter.class, "/messages", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(PeoplesFilter.class, "/users/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+
       server.setHandler(handler);
       server.start();
       server.join();

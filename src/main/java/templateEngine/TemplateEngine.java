@@ -14,36 +14,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class TemplateEngine {
-    /**
-     * logger instance
-     */
-   private static final Logger LOG = LoggerFactory.getLogger(TemplateEngine.class);
+  /**
+   * logger instance
+   */
+  private static final Logger LOG = LoggerFactory.getLogger(TemplateEngine.class);
 
-    /**
-     * Configuration Instance
-     */
-    private final Configuration config;
+  /**
+   * Configuration Instance
+   */
+  private final Configuration config;
 
-    public TemplateEngine(final String path) throws IOException {
-        this.config = new Configuration(Configuration.VERSION_2_3_29) {{
-            setDirectoryForTemplateLoading(new File(path));
-            setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
-            setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-            setLogTemplateExceptions(false);
-            setWrapUncheckedExceptions(true);
-        }};
+  public TemplateEngine(final String path) throws IOException {
+    this.config = new Configuration(Configuration.VERSION_2_3_29) {{
+      setDirectoryForTemplateLoading(new File(path));
+      setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
+      setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+      setLogTemplateExceptions(false);
+      setWrapUncheckedExceptions(true);
+    }};
+  }
+
+  public void render(final String templateFile, final HttpServletResponse resp) throws IOException {
+    render(templateFile, new HashMap<String, Object>(), resp);
+  }
+
+  public void render(final String templateFile, final Map<String, Object> data, final HttpServletResponse resp) throws IOException {
+    try {
+      resp.setCharacterEncoding(String.valueOf(StandardCharsets.UTF_8));
+      config.getTemplate(templateFile).process(data, resp.getWriter());
+    } catch (TemplateException e) {
+      LOG.info(e.getMessage());
     }
-
-    public void render(final String templateFile, final HttpServletResponse resp) throws IOException {
-        render(templateFile, new HashMap<String,Object>(), resp);
-    }
-
-    public void render(final String templateFile, final Map<String, Object> data, final HttpServletResponse resp) throws IOException {
-        try {
-            resp.setCharacterEncoding(String.valueOf(StandardCharsets.UTF_8));
-            config.getTemplate(templateFile).process(data, resp.getWriter());
-        } catch (TemplateException e) {
-            LOG.info(e.getMessage());
-        }
-    }
+  }
 }

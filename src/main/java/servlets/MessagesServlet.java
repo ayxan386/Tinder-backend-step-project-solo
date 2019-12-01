@@ -29,8 +29,10 @@ public class MessagesServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     int my_id = Integer.parseInt(req.getCookies()[0].getValue());
+
     String[] paths = req.getPathInfo().replace("/", "").split("/");
     int other_id = Integer.parseInt(paths[0]);//Integer.parseInt();
+
     HashMap<String, Object> data = new HashMap<>();
     Optional<User> other_user = daoUser.get(other_id);
     other_user.ifPresent(user -> {

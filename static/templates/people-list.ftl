@@ -31,17 +31,19 @@
                         <table class="table-users table scroll" border="0">
                             <tbody>
                             <#list users!emptyList as user>
-                                <tr onclick="sendTo(${user.id})">
-                                    <td width="10">
-                                        <div class="avatar-img">
-                                            <img class="img-circle"
-                                                 src=${user.link}/>  
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        ${user.name}
-                                    </td>
-                                </tr>
+                                <#if (user.id > 0)>
+                                    <tr onclick="sendTo(${user.id})">
+                                        <td width="10">
+                                            <div class="avatar-img">
+                                                <img class="img-circle"
+                                                     src=${user.link}/>  
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            ${user.name}
+                                        </td>
+                                    </tr>
+                                </#if>
                             </#list>
                             </tbody>
                         </table>
