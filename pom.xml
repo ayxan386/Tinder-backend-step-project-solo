@@ -29,6 +29,9 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <finalName>
+                        server
+                    </finalName>
                 </configuration>
             </plugin>
         </plugins>
