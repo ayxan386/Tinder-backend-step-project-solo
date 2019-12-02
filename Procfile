@@ -1,1 +1,1 @@
-web: java -jar target/server-jar-with-dependencies.jar --port $PORT
+web: java -jar target/*.jar $PORT
