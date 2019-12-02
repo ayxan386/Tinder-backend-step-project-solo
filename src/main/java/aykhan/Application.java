@@ -23,6 +23,7 @@ public class Application {
   }
 
   private void startServer() {
+    System.out.println(System.getenv("PORT"));
     Server server = new Server(Integer.parseInt(System.getenv("PORT")));
     ServletContextHandler handler = new ServletContextHandler();
     try {
