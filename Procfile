@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/tinder-project-1.0-SNAPSHOT-jar-with-dependencies.jar --port $PORT
+web: java $JAVA_OPTS -jar target/server-jar-with-dependencies.jar --port $PORT
