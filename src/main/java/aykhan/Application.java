@@ -23,7 +23,7 @@ public class Application {
   }
 
   private void startServer() {
-    Server server = new Server(5000);
+    Server server = new Server(Integer.parseInt(System.getenv("PORT")));
     ServletContextHandler handler = new ServletContextHandler();
     try {
       SQLAuth sqlAuth = new SQLAuth();
