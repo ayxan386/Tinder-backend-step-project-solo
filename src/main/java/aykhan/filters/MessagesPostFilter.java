@@ -17,7 +17,7 @@ public class MessagesPostFilter implements Filter {
 
     if (req.getMethod().equalsIgnoreCase("GET"))
       chain.doFilter(request, response);
-
+    System.out.println("I am post request " + req.getMethod());
     String receiver = req.getParameter("receiver");
     String message = req.getParameter("message");
     if (receiver != null && message != null && message.length() > 0)

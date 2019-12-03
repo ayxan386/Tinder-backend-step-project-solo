@@ -2,7 +2,6 @@ package aykhan;
 
 import aykhan.filters.LoggedFilter;
 import aykhan.filters.MessagesGetFilter;
-import aykhan.filters.MessagesPostFilter;
 import aykhan.filters.PeoplesFilter;
 import aykhan.services.implementations.SQLAuth;
 import aykhan.services.implementations.SQLLikedDao;
@@ -44,9 +43,9 @@ public class Application {
 
       handler.addFilter(LoggedFilter.class, "/liked/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(LoggedFilter.class, "/users/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
-      handler.addFilter(LoggedFilter.class, "/messages", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
-      handler.addFilter(MessagesGetFilter.class, "/messages", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
-      handler.addFilter(MessagesPostFilter.class, "/messages", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+      handler.addFilter(LoggedFilter.class, "/messages/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+//      handler.addFilter(MessagesPostFilter.class, "/messages/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+      handler.addFilter(MessagesGetFilter.class, "/messages/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(PeoplesFilter.class, "/users/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
 
       server.setHandler(handler);

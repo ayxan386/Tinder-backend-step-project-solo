@@ -73,13 +73,14 @@
                 </div>
 
                 <div class="col-md-12 p-2 msg-box border border-primary">
-                    <form method="post" action="/messages">
+                    <form method="post">
                         <div class="row">
                             <div class="col-md-2 options-left">
                                 <i class="fa fa-smile-o"></i>
                             </div>
                             <div class="col-md-7 pl-0">
-                                <input type="text" id="message" class="border-0" placeholder=" Send message"/>
+                                <input type="text" id="message" class="border-0" placeholder=" Send message"
+                                       name="message"/>
                             </div>
                             <div class="col-md-3 text-right options-right">
                                 <input style="display: none" value="${other.id}" name="receiver" readonly>

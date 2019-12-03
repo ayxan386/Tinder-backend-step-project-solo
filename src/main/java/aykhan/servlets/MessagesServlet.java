@@ -52,7 +52,7 @@ public class MessagesServlet extends HttpServlet {
     Message message = new Message(text, sender, receiver);
     System.out.println(message);
     dao.add(new Message(text, sender, receiver));
-
-    resp.sendRedirect("/messages" + req.getPathInfo());
+    System.out.printf("redirecting to %s", "/messages/" + receiver);
+    resp.sendRedirect("/messages/" + receiver);
   }
 }
