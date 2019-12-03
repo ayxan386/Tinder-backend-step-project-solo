@@ -73,22 +73,24 @@
                 </div>
 
                 <div class="col-md-12 p-2 msg-box border border-primary">
-                    <div class="row">
-                        <div class="col-md-2 options-left">
-                            <i class="fa fa-smile-o"></i>
+                    <form method="post" action="/messages">
+                        <div class="row">
+                            <div class="col-md-2 options-left">
+                                <i class="fa fa-smile-o"></i>
+                            </div>
+                            <div class="col-md-7 pl-0">
+                                <input type="text" id="message" class="border-0" placeholder=" Send message"/>
+                            </div>
+                            <div class="col-md-3 text-right options-right">
+                                <input style="display: none" value="${other.id}" name="receiver" readonly>
+                                <button class="btn btn-secondary" type="submit">Send</button>
+                            </div>
                         </div>
-                        <div class="col-md-7 pl-0">
-                            <input type="text" id="message" class="border-0" placeholder=" Send message"/>
-                        </div>
-                        <div class="col-md-3 text-right options-right">
-                            <button class="btn btn-secondary" onclick="sendMessage(${other.id})">Send</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="/static/JS/messageSend.js"></script>
 </body>
 </html>

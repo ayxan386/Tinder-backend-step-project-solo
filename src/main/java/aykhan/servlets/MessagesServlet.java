@@ -53,6 +53,6 @@ public class MessagesServlet extends HttpServlet {
     System.out.println(message);
     dao.add(new Message(text, sender, receiver));
 
-    resp.getWriter().println("done");
+    resp.sendRedirect("/messages" + req.getPathInfo());
   }
 }

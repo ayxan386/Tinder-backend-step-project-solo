@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="/static/templates/css/style.css">
 </head>
 <body style="background-color: #f5f5f5;">
-<input style="display: none" value=${user_id} name="user_id">
 <div class="col-4 offset-1">
     <div class="card">
         <div class="card-body">
@@ -28,15 +27,23 @@
                     <br>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <button class="btn btn-outline-danger btn-block" onclick="sendDisLike()" type="button"><span
-                            class="fa fa-times"></span>
-                        Dislike
-                    </button>
+                    <form action="/users" method="post">
+                        <input name="id" style="display: none" value=${user_id}>
+                        <input name="liked" style="display: none" value="false">
+                        <button class="btn btn-outline-danger btn-block" type="submit"><span
+                                class="fa fa-times"></span>
+                            Dislike
+                        </button>
+                    </form>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <button class="btn btn-outline-success btn-block" onclick="sendLike()" type="button"><span
-                            class="fa fa-heart"></span> Like
-                    </button>
+                    <form action="/users" method="post">
+                        <input name="id" style="display: none" value=${user_id}>
+                        <input name="liked" style="display: none" value="true">
+                        <button class="btn btn-outline-success btn-block" type="submit"><span
+                                class="fa fa-heart"></span> Like
+                        </button>
+                    </form>
                 </div>
                 <!--/col-->
             </div>
@@ -45,6 +52,5 @@
         <!--/card-block-->
     </div>
 </div>
-<script src="/static/JS/requestSender.js"></script>
 </body>
 </html>

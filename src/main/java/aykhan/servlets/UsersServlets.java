@@ -57,10 +57,12 @@ public class UsersServlets extends HttpServlet {
     int id = Integer.parseInt(req.getParameter("id"));
     boolean liked = Boolean.parseBoolean(req.getParameter("liked"));
     if (liked) {
+      System.out.printf("%d %s\n", id, liked);
       int logged_user_id = Integer.parseInt(req.getCookies()[0].getValue());
       Optional<List<LikedUser>> list_of_liked = dao_liked.getContaining(logged_user_id);
 
       list_of_liked.ifPresent(list -> {
+        System.out.println(list);
         List<Integer> intList = list.stream()
             .map(LikedUser::getWhom)
             .collect(Collectors.toList());
@@ -69,8 +71,6 @@ public class UsersServlets extends HttpServlet {
             }
           }
       );
-      resp.getWriter().println("done");
-      return;
     }
     resp.sendRedirect("/users");
   }

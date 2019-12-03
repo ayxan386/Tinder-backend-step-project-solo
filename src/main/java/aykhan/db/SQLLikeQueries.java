@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class SQLLikeQueries {
-  private final String INSERT = "INSERT  INTO public.liked (who,whom) values(?,?)";
+  private final String INSERT = "INSERT  INTO liked (who,whom) values(?,?)";
   private final String SELECT_ID = "SELECT id,who,whom FROM liked WHERE (who = ?)";
 
   public void add(LikedUser likedUser) {
@@ -17,6 +17,7 @@ public class SQLLikeQueries {
       statement.setInt(1, likedUser.getWho());
       statement.setInt(2, likedUser.getWhom());
       statement.execute();
+      System.out.println("success");
     } catch (Exception e) {
       throw new IllegalArgumentException("SQLLikeQueries add", e);
     }
