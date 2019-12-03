@@ -1,1 +1,1 @@
-web: java -jar target/*.jar $PORT
+web: java $JAVA_OPTS-cp ./target/classes:target/deps/* aykhan.Application
