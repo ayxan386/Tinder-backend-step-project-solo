@@ -17,7 +17,7 @@ public class SQLAuth implements Auth {
   }
 
   @Override
-  public boolean register(String name, String pass) {
-    return false;
+  public boolean register(User user) {
+    return sqlUserQueries.add(user) > 0;
   }
 }

@@ -1,9 +1,6 @@
 package aykhan;
 
-import aykhan.filters.LoggedFilter;
-import aykhan.filters.MessagesGetFilter;
-import aykhan.filters.MessagesPostFilter;
-import aykhan.filters.PeoplesFilter;
+import aykhan.filters.*;
 import aykhan.services.implementations.SQLAuth;
 import aykhan.services.implementations.SQLLikedDao;
 import aykhan.services.implementations.SQLMessageDao;
@@ -23,8 +20,8 @@ public class Application {
   }
 
   private void startServer() {
-    Server server = new Server(Integer.parseInt(System.getenv("PORT")));
-//    Server server = new Server(5000);
+//    Server server = new Server(Integer.parseInt(System.getenv("PORT")));
+    Server server = new Server(5000);
     ServletContextHandler handler = new ServletContextHandler();
     try {
       SQLAuth sqlAuth = new SQLAuth();
@@ -34,6 +31,7 @@ public class Application {
       TemplateEngine freemarker = new TemplateEngine("./src/main/resources/static/templates");
 
       handler.addServlet(new ServletHolder(new LoginServlet(sqlAuth, freemarker)), "/login/*");
+      handler.addServlet(new ServletHolder(new RegisterServlet(sqlAuth, freemarker)), "/register/*");
       handler.addServlet(new ServletHolder(new LogoutServlet()), "/logout/*");
       handler.addServlet(new ServletHolder(new LikedServlet(freemarker, sqlUserDao, sqlLikedDao)), "/liked/*");
       handler.addServlet(new ServletHolder(new UsersServlets(freemarker, sqlUserDao, sqlLikedDao)), "/users/*");
@@ -46,6 +44,8 @@ public class Application {
       handler.addFilter(LoggedFilter.class, "/users/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(LoggedFilter.class, "/messages/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(MessagesPostFilter.class, "/messages/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+      handler.addFilter(LoginPostFilter.class, "/login/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+      handler.addFilter(RegisterPostFilter.class, "/register/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(MessagesGetFilter.class, "/messages/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
       handler.addFilter(PeoplesFilter.class, "/users/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
 

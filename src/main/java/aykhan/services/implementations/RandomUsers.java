@@ -18,7 +18,7 @@ public class RandomUsers {
     Random r = new Random();
     List<User> list = sqlUserDao.getThese(
         1,
-        10);
+        1000);
 
     list = list.stream()
         .filter(user ->
