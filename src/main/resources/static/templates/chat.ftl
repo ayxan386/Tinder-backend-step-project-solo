@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="col-md-12 p-2 msg-box border border-primary">
-                    <form method="post">
+                    <form method="post" action="/messages/${other.id}">
                         <div class="row">
                             <div class="col-md-2 options-left">
                                 <i class="fa fa-smile-o"></i>

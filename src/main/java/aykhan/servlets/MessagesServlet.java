@@ -49,7 +49,9 @@ public class MessagesServlet extends HttpServlet {
     int sender = Integer.parseInt(req.getCookies()[0].getValue());
     int receiver = Integer.parseInt(req.getParameter("receiver"));
     String text = req.getParameter("message");
+
     dao.add(new Message(text, sender, receiver));
-    resp.sendRedirect("/messages/" + receiver);
+    resp.setHeader("method", "get");
+    resp.sendRedirect(String.format("/messages/%s", receiver));
   }
 }

@@ -14,8 +14,10 @@ public class MessagesGetFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-    if (req.getMethod().equalsIgnoreCase("POST"))
+    if (req.getMethod().equalsIgnoreCase("POST")) {
       chain.doFilter(request, response);
+      return;
+    }
     System.out.println("I am get request" + req.getMethod());
     String[] paths = req.getPathInfo().replace("/", "").split("/");
     if (paths.length > 0) {
@@ -26,8 +28,9 @@ public class MessagesGetFilter implements Filter {
       } catch (Exception e) {
         e.printStackTrace();
       }
+    } else {
+      ((HttpServletResponse) response).sendRedirect("/liked");
     }
-    ((HttpServletResponse) response).sendRedirect("/liked");
   }
 
   @Override

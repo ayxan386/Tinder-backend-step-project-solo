@@ -15,9 +15,10 @@ public class MessagesPostFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
 
-    if (req.getMethod().equalsIgnoreCase("GET"))
+    if (req.getMethod().equalsIgnoreCase("GET")) {
       chain.doFilter(request, response);
-    System.out.println("I am post request " + req.getMethod());
+      return;
+    }
     String receiver = req.getParameter("receiver");
     String message = req.getParameter("message");
     if (receiver != null && message != null && message.length() > 0)
