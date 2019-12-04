@@ -31,7 +31,7 @@ public class MessagesServlet extends HttpServlet {
     int my_id = Integer.parseInt(req.getCookies()[0].getValue());
 
     String[] paths = req.getPathInfo().replace("/", "").split("/");
-    int other_id = Integer.parseInt(paths[0]);//Integer.parseInt();
+    int other_id = Integer.parseInt(paths[0]);
 
     HashMap<String, Object> data = new HashMap<>();
     Optional<User> other_user = daoUser.get(other_id);
@@ -49,10 +49,7 @@ public class MessagesServlet extends HttpServlet {
     int sender = Integer.parseInt(req.getCookies()[0].getValue());
     int receiver = Integer.parseInt(req.getParameter("receiver"));
     String text = req.getParameter("message");
-    Message message = new Message(text, sender, receiver);
-    System.out.println(message);
     dao.add(new Message(text, sender, receiver));
-    System.out.printf("redirecting to %s", "/messages/" + receiver);
     resp.sendRedirect("/messages/" + receiver);
   }
 }
